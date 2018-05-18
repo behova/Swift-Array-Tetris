@@ -16,6 +16,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        //add new root window
+        window = UIWindow()
+        window?.makeKeyAndVisible()
+        
+        // add game's viewcontroller to above window
+        let gameViewController = GameViewController()
+        window?.rootViewController = gameViewController
+        
+        
         return true
     }
 
