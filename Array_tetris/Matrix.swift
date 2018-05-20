@@ -15,6 +15,7 @@ struct Matrix {
         self.rows = rows
         self.columns = columns
         grid = Array(repeating: "0", count: rows * columns)
+        //Create Border
         for x in 0..<rows {
             for y in 0..<columns {
                 if y == 0 || y == 9 {
@@ -25,7 +26,8 @@ struct Matrix {
                 }
             }
         }
-        grid[(10 * columns) + 1] = "6"
+        // add obstacles for testing
+        //grid[(10 * columns) + 4] = "6"
     }
     func indexIsValid(row: Int, column: Int) -> Bool {
         return row >= 0 && row < rows && column >= 0 && column < columns

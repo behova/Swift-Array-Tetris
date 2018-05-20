@@ -15,16 +15,12 @@ class GridInterface {
     
     var currentPiece = [[String]]()
     var currentRotation = 0
-    var moveX = 0
-    var moveY = 1
-    var startX = 0
-    var starty = 1
+    var startX = Int()
+    var starty = Int()
     
     func newShape() {
-        moveX = 2
-        moveY = 1
-        startX = 1
-        starty = 1
+        startX = 0
+        starty = 3
         
         let shape = shapes.randomShape()
         currentPiece = shape
@@ -50,38 +46,40 @@ class GridInterface {
     }
     
     func clearCurrentShape() {
-        for x in 0..<21 {
-            for y in 0..<9 {
-                if grid[x, y] == currentPiece[0][0] {
-                    grid[x, y] = "0"
+        let flatt = currentPiece.joined()
+        if let value = flatt.first(where: { $0 > "0"}) {
+            for x in 0..<22 {
+                for y in 0..<10 {
+                    if grid[x, y] == value {
+                        grid[x, y] = "0"
+                    }
                 }
             }
         }
     }
+        
     
-    func noCollision(Piece: [[String]]) -> Bool {
-        for x in 0..<Piece.count {
-            for y in 0..<Piece[x].count {
-                if grid[(x + moveX), (y + moveY)]  == "9" {
-                    return false
-                }
-                if grid[(x + moveX), (y + moveY)] == Piece[x][y] {
-                    continue
-                }
-                if Piece[x][y] != "0" && grid[(x + moveX), (y + moveY)] != "0" {
-                    return false
+    func noCollision(piece: [[String]]) -> Bool {
+        for x in 0..<piece.count {
+            for y in 0..<piece.count {
+                if piece[x][y] > "0" {
+                    if grid[(x + startX) + 1, (y + starty) + 1] != piece[x][y] && grid[(x + startX) + 1, (y + starty) + 1] > "0"  {
+                        return false
+                    }
                 }
             }
         }
-        return true
+       return true
     }
     
     func decend() {
-        if noCollision(Piece: currentPiece) == true {
+        if noCollision(piece: currentPiece) == true {
+//            interface.moveX += 1
+//            interface.startX = interface.moveX
+            interface.startX += 1
             clearCurrentShape()
             interface.drawShape()
-            interface.moveX += 1
-            interface.startX = interface.moveX
+            
             
         }
        
