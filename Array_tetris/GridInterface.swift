@@ -11,7 +11,6 @@ import SpriteKit
 var grid = Matrix(rows: 22, columns: 10)
 let shapes = ShapeArrays()
 var collisonCount = Int()
-//var currentPiece = [[String]]()
 var currentRotation = 0
 var startX = Int()
 var starty = Int()
@@ -25,12 +24,10 @@ class GridInterface {
         
         shapes.newRandomShape()
         
-        //currentPiece = shape
-        
-        for x in 0..<currentPiece.count {
-            for y in 0..<currentPiece[x].count {
-                if currentPiece[x][y] != "0" {
-                    grid[x + startX, y + starty] = currentPiece[x][y]
+        for x in 0..<currentShape.count {
+            for y in 0..<currentShape[x].count {
+                if shapes.currentshapeIndex(x: x, y: y, r: currentRotation) != "0" {
+                    grid[x + startX, y + starty] = shapes.currentshapeIndex(x: x, y: y, r: currentRotation)
                 }
             }
         }
@@ -38,19 +35,19 @@ class GridInterface {
     
     
     func drawShape() {
-        for x in 0..<currentPiece.count {
-            for y in 0..<currentPiece[x].count {
-                if currentPiece[x][y] != "0" {
-                    grid[x + startX, y + starty] = currentPiece[x][y]
+        for x in 0..<currentShape.count {
+            for y in 0..<currentShape[x].count {
+                if shapes.currentshapeIndex(x: x, y: y, r: currentRotation) != "0" {
+                    grid[x + startX, y + starty] = shapes.currentshapeIndex(x: x, y: y, r: currentRotation)
                 }
             }
         }
     }
     
     func clearPrevious() {
-        for x in 0..<currentPiece.count {
-            for y in 0..<currentPiece[x].count {
-                if currentPiece[x][y] != "0" {
+        for x in 0..<currentShape.count {
+            for y in 0..<currentShape[x].count {
+                if shapes.currentshapeIndex(x: x, y: y, r: currentRotation) != "0" {
                     grid[x + startX - 1, y + starty] = "0"
                 }
             }
@@ -58,7 +55,7 @@ class GridInterface {
     }
     
     func clearCurrentShape(number: String = "0") {
-        let flatt = currentPiece.joined()
+        let flatt = currentShape.joined()
         if let value = flatt.first(where: { $0 > "0"}) {
             for x in 0..<22 {
                 for y in 0..<10 {
@@ -80,10 +77,10 @@ class GridInterface {
 
         for x in 0..<piece.count {
             for y in 0..<piece[x].count {
-                if piece[x][y] == "0" {
+                if shapes.currentshapeIndex(x: x, y: y, r: currentRotation) == "0" {
                     continue
                 }
-                else if grid[(x + startX), (y + starty)] == piece[x][y] {
+                else if grid[(x + startX), (y + starty)] == shapes.currentshapeIndex(x: x, y: y, r: currentRotation) {
                     hits[x][y] += -1
                 }
                 else if grid[(x + startX), (y + starty)] > "0" {
@@ -105,14 +102,15 @@ class GridInterface {
     
     func decend() {
         startX += 1
-        if noCollision(piece: currentPiece) == true {
+        
+        if noCollision(piece: currentShape) == true {
             
-            print(startX)
-            //clearCurrentShape()
             clearPrevious()
+            
             interface.drawShape()
             
-        } else if noCollision(piece: currentPiece) == false {
+            
+        } else if noCollision(piece: currentShape) == false {
             couldntDecend()
             startX += -1
         }
