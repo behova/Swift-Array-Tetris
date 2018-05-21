@@ -51,7 +51,7 @@ struct Matrix {
         
         return sArray
     }
-    
+   
     subscript(row: Int, column: Int) -> String {
         get {
             assert(indexIsValid(row: row, column: column), "Index out of range")
@@ -62,5 +62,40 @@ struct Matrix {
             grid[(row * columns) + column] = newValue
         }
     }
+//    subscript(row: Int, column: Int, r: Int) -> String {
+//        get {
+//            switch r {
+//            case 0: return grid[column * 4 + row]
+//            case 1: return grid[12 + column - (row * 4)]
+//            case 2: return grid[15 - (column * 4) - row]
+//            case 3: return grid[3 - column + (row * 4)]
+//
+//            default:
+//                return grid[column * 4 + row]
+//            }
+//        }
+//        set {
+//            switch r {
+//            case 0: grid[column * 4 + row] = newValue
+//            case 1: grid[12 + column - (row * 4)] = newValue
+//            case 2: grid[15 - (column * 4) - row] = newValue
+//            case 3: grid[3 - column + (row * 4)] = newValue
+//
+//            default:
+//                grid[column * 4 + row] = newValue
+//            }
+//        }
+//    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }
 

@@ -8,13 +8,6 @@
 
 import SpriteKit
 
-extension Equatable {
-    func oneOf(other: Self...) -> Bool {
-        return other.contains(self)
-    }
-}
-
-
 extension UIView {
     
     func fillSuperView() {

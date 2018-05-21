@@ -8,6 +8,8 @@
 
 import Foundation
 
+var currentShape = [[String]]()
+
 struct ShapeArrays {
     
     let tBlock: [[String]] = [
@@ -77,5 +79,36 @@ struct ShapeArrays {
             return tBlock
         }
     }
+    func newRandomShape() {
+        currentShape = randomShape()
+    }
+    
+    func currentshapeIndex(x: Int, y: Int, r: Int) -> String {
+        let flatt = currentShape.reduce([], +)
+        
+        switch r {
+        case 0: return flatt[y * 4 + x]
+        case 1: return flatt[12 + y - (x * 4)]
+        case 2: return flatt[15 - (y * 4) - x]
+        case 3: return flatt[3 - y + (x * 4)]
+            
+        default:
+            return flatt[y * 4 + x]
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
 }

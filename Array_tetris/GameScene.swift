@@ -32,19 +32,16 @@ class GameScene: SKScene {
         y = 0.0
     }
     
-    
-    override func update(_ currentTime: TimeInterval) {
-        
-        clear()
+    func gameLoop() {
         
         if collisonCount >= 1 {
             interface.newShape()
         }
         
         interface.decend()
-        
-        
-        
+    }
+    
+    func lowFiGraphics() {
         let printD = grid.returnDisplay(numColumns: 10)
         
         for row in 0...21  {
@@ -61,5 +58,15 @@ class GameScene: SKScene {
             
             y += 30.0
         }
+    }
+    
+    
+    override func update(_ currentTime: TimeInterval) {
+        clear()
+        
+        gameLoop()
+        lowFiGraphics()
+        
+        
     }
 }

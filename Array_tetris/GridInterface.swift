@@ -11,7 +11,7 @@ import SpriteKit
 var grid = Matrix(rows: 22, columns: 10)
 let shapes = ShapeArrays()
 var collisonCount = Int()
-var currentPiece = [[String]]()
+//var currentPiece = [[String]]()
 var currentRotation = 0
 var startX = Int()
 var starty = Int()
@@ -21,10 +21,11 @@ class GridInterface {
     func newShape() {
         collisonCount = 0
         startX = 0
-        starty = 3
+        starty = 2
         
-        let shape = shapes.randomShape()
-        currentPiece = shape
+        shapes.newRandomShape()
+        
+        //currentPiece = shape
         
         for x in 0..<currentPiece.count {
             for y in 0..<currentPiece[x].count {
@@ -46,6 +47,16 @@ class GridInterface {
         }
     }
     
+    func clearPrevious() {
+        for x in 0..<currentPiece.count {
+            for y in 0..<currentPiece[x].count {
+                if currentPiece[x][y] != "0" {
+                    grid[x + startX - 1, y + starty] = "0"
+                }
+            }
+        }
+    }
+    
     func clearCurrentShape(number: String = "0") {
         let flatt = currentPiece.joined()
         if let value = flatt.first(where: { $0 > "0"}) {
@@ -58,26 +69,11 @@ class GridInterface {
             }
         }
     }
-        
-    //////////////// legacy
-//    func noCollision(piece: [[String]]) -> Bool {
-//        for x in 0..<piece.count {
-//            for y in 0..<piece.count {
-//                if piece[x][y] == "0" {
-//                    continue
-//                }
-//                if grid[(x + startX) + 1, (y + starty) + 1] != piece[x][y] && grid[(x + startX) + 1, (y + starty) + 1] > "0"  {
-//                    return false
-//
-//                }
-//            }
-//        }
-//       return true
-//    }
-    //////////////////
     
     func noCollision(piece: [[String]]) -> Bool {
         var hits = [
+            [0,0,0,0],
+            [0,0,0,0],
             [0,0,0,0],
             [0,0,0,0]
         ]
@@ -112,7 +108,8 @@ class GridInterface {
         if noCollision(piece: currentPiece) == true {
             
             print(startX)
-            clearCurrentShape()
+            //clearCurrentShape()
+            clearPrevious()
             interface.drawShape()
             
         } else if noCollision(piece: currentPiece) == false {
