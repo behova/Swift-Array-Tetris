@@ -10,15 +10,16 @@ import SpriteKit
 
 var grid = Matrix(rows: 22, columns: 10)
 let shapes = ShapeArrays()
+var collisonCount = Int()
+var currentPiece = [[String]]()
+var currentRotation = 0
+var startX = Int()
+var starty = Int()
 
 class GridInterface {
     
-    var currentPiece = [[String]]()
-    var currentRotation = 0
-    var startX = Int()
-    var starty = Int()
-    
     func newShape() {
+        collisonCount = 0
         startX = 0
         starty = 3
         
@@ -45,46 +46,87 @@ class GridInterface {
         }
     }
     
-    func clearCurrentShape() {
+    func clearCurrentShape(number: String = "0") {
         let flatt = currentPiece.joined()
         if let value = flatt.first(where: { $0 > "0"}) {
             for x in 0..<22 {
                 for y in 0..<10 {
                     if grid[x, y] == value {
-                        grid[x, y] = "0"
+                        grid[x, y] = number
                     }
                 }
             }
         }
     }
         
+    //////////////// legacy
+//    func noCollision(piece: [[String]]) -> Bool {
+//        for x in 0..<piece.count {
+//            for y in 0..<piece.count {
+//                if piece[x][y] == "0" {
+//                    continue
+//                }
+//                if grid[(x + startX) + 1, (y + starty) + 1] != piece[x][y] && grid[(x + startX) + 1, (y + starty) + 1] > "0"  {
+//                    return false
+//
+//                }
+//            }
+//        }
+//       return true
+//    }
+    //////////////////
     
     func noCollision(piece: [[String]]) -> Bool {
+        var hits = [
+            [0,0,0,0],
+            [0,0,0,0]
+        ]
+
         for x in 0..<piece.count {
-            for y in 0..<piece.count {
-                if piece[x][y] > "0" {
-                    if grid[(x + startX) + 1, (y + starty) + 1] != piece[x][y] && grid[(x + startX) + 1, (y + starty) + 1] > "0"  {
-                        return false
-                    }
+            for y in 0..<piece[x].count {
+                if piece[x][y] == "0" {
+                    continue
+                }
+                else if grid[(x + startX), (y + starty)] == piece[x][y] {
+                    hits[x][y] += -1
+                }
+                else if grid[(x + startX), (y + starty)] > "0" {
+                    hits[x][y] += 1
+                }
+                else {
+                    continue
                 }
             }
         }
-       return true
+        print(hits)
+        let flatt = hits.joined()
+        if flatt.contains(1) {
+            return false
+        } else {
+           return true
+        }
     }
     
     func decend() {
+        startX += 1
         if noCollision(piece: currentPiece) == true {
-//            interface.moveX += 1
-//            interface.startX = interface.moveX
-            interface.startX += 1
+            
+            print(startX)
             clearCurrentShape()
             interface.drawShape()
             
-            
+        } else if noCollision(piece: currentPiece) == false {
+            couldntDecend()
+            startX += -1
         }
-       
-     
     }
+    func couldntDecend() {
+       collisonCount += 1
+    }
+    
+    
+    
+    
 }
 
 

@@ -9,7 +9,7 @@
 import SpriteKit
 
 let interface = GridInterface()
-var currentPiece = interface.currentPiece
+//var currentPiece = interface.currentPiece
 
 class GameScene: SKScene {
     
@@ -37,7 +37,13 @@ class GameScene: SKScene {
         
         clear()
         
+        if collisonCount >= 1 {
+            interface.newShape()
+        }
+        
         interface.decend()
+        
+        
         
         let printD = grid.returnDisplay(numColumns: 10)
         
