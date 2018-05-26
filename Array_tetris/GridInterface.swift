@@ -44,16 +44,6 @@ class GridInterface {
         }
     }
     
-    func clearPrevious() {
-        for x in 0..<currentShape.count {
-            for y in 0..<currentShape[x].count {
-                if shapes.currentshapeIndex(x: x, y: y, r: currentRotation) != "0" {
-                    grid[x + startX - 1, y + starty] = "0"
-                }
-            }
-        }
-    }
-    
     func clearCurrentShape(number: String = "0") {
         let flatt = currentShape.joined()
         if let value = flatt.first(where: { $0 > "0"}) {
@@ -66,6 +56,16 @@ class GridInterface {
             }
         }
     }
+    func convertShape() {
+        for x in 0..<currentShape.count {
+            for y in 0..<currentShape[x].count {
+                if shapes.currentshapeIndex(x: x, y: y, r: currentRotation) != "0" {
+                    grid[x + startX - 1, y + starty] = "8"
+                }
+            }
+        }
+    }
+    ////////// logic
     
     func noCollision(piece: [[String]]) -> Bool {
         var hits = [
@@ -91,7 +91,7 @@ class GridInterface {
                 }
             }
         }
-        print(hits)
+        //print(hits)
         let flatt = hits.joined()
         if flatt.contains(1) {
             return false
@@ -105,7 +105,7 @@ class GridInterface {
         
         if noCollision(piece: currentShape) == true {
             
-            clearPrevious()
+            clearCurrentShape()
             
             interface.drawShape()
             
@@ -115,8 +115,14 @@ class GridInterface {
             startX += -1
         }
     }
+    
     func couldntDecend() {
+        if collisonCount >= 1 {
+            convertShape()
+            newShape()
+        }
        collisonCount += 1
+        
     }
     
     

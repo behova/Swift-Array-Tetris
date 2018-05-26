@@ -9,7 +9,7 @@
 import Foundation
 
 var currentShape = [[String]]()
-var shapeVersions: [String: Decimal] = ["tblock": 1.0]
+
 struct ShapeArrays {
     
     
@@ -69,23 +69,23 @@ struct ShapeArrays {
     
     
     func randomShape() -> [[String]] {
-        let randomNum = arc4random_uniform(8)
+        let randomNum = arc4random_uniform(7)
         
         switch randomNum {
-        case 0: shapeVersions["tblock"]! += 0.1; return tBlock
+        case 0: return tBlock
         case 1: return lBlock
         case 2: return jBlock
-        case 3: return lBlock
-        case 4: return iBlock
-        case 5: return oBlock
-        case 6: return sBlock
-        case 7: return zBlock
+        case 3: return iBlock
+        case 4: return oBlock
+        case 5: return sBlock
+        case 6: return zBlock
         default:
             return tBlock
         }
     }
     func newRandomShape() {
         currentShape = randomShape()
+        
     }
     
     func currentshapeIndex(x: Int, y: Int, r: Int) -> String {

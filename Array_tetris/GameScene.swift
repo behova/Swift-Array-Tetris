@@ -34,10 +34,6 @@ class GameScene: SKScene {
     
     func gameLoop() {
         
-        if collisonCount >= 1 {
-            interface.newShape()
-        }
-        
         interface.decend()
     }
     
